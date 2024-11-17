@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="h3 my-3">Liste des produits</h1>
+
+        <div class="row d-flex flex-1">
+
+            {% if products is not empty %}
+
+                {% for product in products %}
+                    <div class="card col-xs-6 col-md-4 col-lg-3">
+                        {% if product.image %}
+                            <img src="{{ product.image }}" class="card-img-top" alt="...">
+                        {% else %}
+                            <img src="https://picsum.photos/200/300" class="card-img-top" alt="...">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title fs-5">{{ product.name }}</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                            <p class="h4">{{ product.price }} €</p>
+                            <a href="{{ path('cart_add',{'id':product.id})}}" class="btn btn-primary">Ajouter au panier</a>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            {% else %}
+                <div class="alert alert-secondary" role="alert">
+                    Aucun produit trouvé
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}

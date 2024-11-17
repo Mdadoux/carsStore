@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="h4">Votre panier</h1>
+
+        {% if datas|length > 0 %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"><img src="" alt=""></th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Quantité</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for element in datas %}
+                    <tr>
+                        <td>{{ element.product.id }}</td>
+                        <td><img src="{{ element.product.image }}" alt="product image" width="80"></td>
+                        <td>{{ element.product.name }}</td>
+                        <td>{{ element.product.price }}€</td>
+                        <td>{{ element.qty }}</td>
+                        <td><a href=""><span class="material-symbols-outlined">delete</span></a></td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" class="text-end">Total : </td>
+                        <td><strong>{{ cartTotal }}€</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        {% else %}
+            <div class="alert alert-secondary" role="alert"> Votre panier est vide !</div>
+        {% endif %}
+
+    </div>
+{% endblock %}
