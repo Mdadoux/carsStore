@@ -16,25 +16,24 @@ class CartController extends AbstractController
     {
         //Récuperer le panier depuis la session
         $cart = $session->get('cart', []);
+        $total = 0;
         $cartWithDatas = [];
         if (!empty($cart)) {
             foreach ($cart as $id => $quantity) {
+                //on recupère le produit
+                $product = $productRepository->find($id);
                 $cartWithDatas[] = [
-                    'product' => $productRepository->find($id),
+                    'product' => $product,
                     'qty' => $quantity
                 ];
+                // Calculer le prix total
+                $total += $product->getPrice() * $quantity;
             }
         }
-        $total = 0;
-        foreach ($cartWithDatas as $element) {
-            $totalElement = $element['product']->getPrice() * $element['qty'];
-            $total += $totalElement;
-        }
-
 
         return $this->render('cart/index.html.twig', [
             'datas' => $cartWithDatas,
-            'cartTotal' =>$total
+            'cartTotal' => $total
         ]);
     }
 
@@ -42,6 +41,7 @@ class CartController extends AbstractController
     #[Route('/cart/add/{id}', name: 'cart_add')]
     public function add(int $id, SessionInterface $session)
     {
+        // recuper le panier depuis la session
         $cart = $session->get('cart', []);
         //Le produit est dejà dans le panier, on augmente juste la quantité
         if (!empty($cart[$id])) {
@@ -51,6 +51,16 @@ class CartController extends AbstractController
         }
 
         $session->set('cart', $cart);
-        dd($session->get('cart'));
+        return $this->redirectToRoute('app_cart');
+    }
+    #[Route('/cart/remove/{id}',name: 'cart_remove')]
+    public function remove(int $id,SessionInterface $session)
+    {
+        $cart = $session->get('cart',[]);
+        if (!empty($cart[$id])){
+            unset($cart[$id]);
+        }
+        $session->set('cart',$cart);
+        return $this->redirectToRoute('app_cart');
     }
 }

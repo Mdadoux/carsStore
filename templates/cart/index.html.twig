@@ -26,7 +26,7 @@
                         <td>{{ element.product.name }}</td>
                         <td>{{ element.product.price }}€</td>
                         <td>{{ element.qty }}</td>
-                        <td><a href=""><span class="material-symbols-outlined">delete</span></a></td>
+                        <td><a href="{{ path('cart_remove',{'id':element.product.id})}}"><span class="material-symbols-outlined">delete</span></a></td>
                     </tr>
                 {% endfor %}
 
