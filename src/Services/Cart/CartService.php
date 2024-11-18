@@ -9,11 +9,13 @@ class CartService
 {
     protected $session;
     protected $productRepository;
+
     public function __construct(RequestStack $requestStack, ProductRepository $productRepository)
     {
         $this->session = $requestStack->getSession();
         $this->productRepository = $productRepository;
     }
+
     public function add(int $id)
     {
         // recuper le panier depuis la session
@@ -27,7 +29,21 @@ class CartService
         $this->session->set('cart', $cart);
 
     }
+
     public function remove(int $id)
+    {
+        $cart = $this->session->get('cart', []);
+        if (!empty($cart[$id])) {
+            if ($cart[$id] > 1) {
+               $cart[$id]--;
+            }else{
+                unset($cart[$id]);
+            }
+        }
+        $this->session->set('cart', $cart);
+    }
+
+    public function delete(int $id)
     {
         $cart = $this->session->get('cart', []);
         if (!empty($cart[$id])) {
@@ -61,6 +77,9 @@ class CartService
             }
         }
         return $cartWithDatas;
+    }
+    public function emptyCart(){
+        $this->session->remove('cart');
     }
 
 

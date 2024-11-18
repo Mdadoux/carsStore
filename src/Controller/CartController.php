@@ -31,4 +31,17 @@ class CartController extends AbstractController
         $cartService->remove($id);
         return $this->redirectToRoute('app_cart');
     }
+    #[Route('/cart/delete/{id}',name: 'cart_delete')]
+    public function delete(int $id,CartService $cartService)
+    {
+        $cartService->delete($id);
+        return $this->redirectToRoute('app_cart');
+    }
+    #[Route('/cart/empty',name:'cart_empty')]
+    public function empty(CartService $cartService)
+    {
+        $cartService->emptyCart();
+        $this->addFlash('success','Votre panier a été vidé');
+        return $this->redirectToRoute('app_cart');
+    }
 }

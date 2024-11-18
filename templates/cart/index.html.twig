@@ -16,6 +16,7 @@
                     <th scope="col">Nom</th>
                     <th scope="col">Prix</th>
                     <th scope="col">Quantité</th>
+                    <th  scope="col">&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -25,17 +26,28 @@
                         <td><img src="{{ element.product.image }}" alt="product image" width="80"></td>
                         <td>{{ element.product.name }}</td>
                         <td>{{ element.product.price }}€</td>
-                        <td>{{ element.quantity }}</td>
-                        <td><a href="{{ path('cart_remove',{'id':element.product.id})}}"><span class="material-symbols-outlined">delete</span></a></td>
+                        <td>
+                            <span class="d-flex flex-row align-items-center justify-content-center align-self-center">
+                                <a href="{{ path('cart_remove',{'id':element.product.id}) }}"><span class="material-symbols-outlined">remove</span></a>
+                                  <span class="py-1 px-2">{{ element.quantity }}</span>
+                                <a href="{{ path('cart_add',{'id':element.product.id}) }}"><span class="material-symbols-outlined">add</span></a>
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ path('cart_delete',{'id':element.product.id}) }}">
+                             <span class="material-symbols-outlined">delete</span>
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
 
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <td colspan="5" class="text-end">Total : </td>
-                        <td><strong>{{ cartTotal }}€</strong></td>
-                    </tr>
+                <tr>
+                    <td colspan="4" class="text-end">Total :</td>
+                    <td><strong>{{ cartTotal }}€</strong></td>
+                    <td class="text-end"><a href="{{ path('cart_empty') }}" class="btn btn-danger btn-small ml-auto d-inline-block">Vider mon panier</a></td>
+                </tr>
                 </tfoot>
             </table>
         {% else %}
