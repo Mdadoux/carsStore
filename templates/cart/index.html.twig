@@ -25,7 +25,7 @@
                         <td><img src="{{ element.product.image }}" alt="product image" width="80"></td>
                         <td>{{ element.product.name }}</td>
                         <td>{{ element.product.price }}€</td>
-                        <td>{{ element.qty }}</td>
+                        <td>{{ element.quantity }}</td>
                         <td><a href="{{ path('cart_remove',{'id':element.product.id})}}"><span class="material-symbols-outlined">delete</span></a></td>
                     </tr>
                 {% endfor %}
